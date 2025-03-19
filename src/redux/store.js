@@ -1,10 +1,12 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers} from "redux";
 import { thunk } from 'redux-thunk'
+import { configureStore } from "@reduxjs/toolkit";
+import employeesReducer from './employeesReducer';
 
-let reducers = combineReducers({
-
+const reducers = combineReducers({
+    employees: employeesReducer,
 });
 
-let store = createStore(reducers, applyMiddleware(thunk));
+let store = configureStore({reducer: reducers}, applyMiddleware(thunk));
 
 export default store;
