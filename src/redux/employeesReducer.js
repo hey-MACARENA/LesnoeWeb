@@ -1,20 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { employeesAPI } from "../api/employeesApi";
 
 const employeesSlice = createSlice({
     name: 'employees',
     initialState: {
-        list: [
-            {id: 1, name: 'AAA'},
-            {id: 2, name: 'BBB'},
-            {id: 3, name: 'CCC'},
-        ],
+        list: [],
+        count: 0,
     },
     reducers: {
-        setEmployees: (state) => {
-            state.list.push({id: 4, name: 'DDD'});
-        }
-    }
-})
+        setEmployees: (state, action) => {
+            state.list = action.payload.data;
+            state.count = action.payload.count;
+        },
+    },
+});
 
 export const { setEmployees } = employeesSlice.actions;
+
+// Асинхронный action creator
+export const fetchEmployees = () => async (dispatch) => {
+    try {
+        const response = await employeesAPI.getEmployees();
+        dispatch(setEmployees(response)); // Отправляем данные в редьюсер
+    } catch (error) {
+        console.error('Failed to fetch employees:', error);
+    }
+};
+
 export default employeesSlice.reducer;
