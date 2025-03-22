@@ -4,27 +4,32 @@ import { employeesAPI } from "../api/employeesApi";
 const employeesSlice = createSlice({
     name: 'employees',
     initialState: {
-        list: [],
+        employees: [],
         count: 0,
+        teams: [],
     },
     reducers: {
         setEmployees: (state, action) => {
-            state.list = action.payload.data;
+            state.employees = action.payload.data;
             state.count = action.payload.count;
+        },
+        setTeams: (state, action) => {
+            state.teams = action.payload;
         },
     },
 });
 
-export const { setEmployees } = employeesSlice.actions;
+export const { setEmployees, setTeams } = employeesSlice.actions;
 
-// Асинхронный action creator
 export const fetchEmployees = () => async (dispatch) => {
-    try {
-        const response = await employeesAPI.getEmployees();
-        dispatch(setEmployees(response)); // Отправляем данные в редьюсер
-    } catch (error) {
-        console.error('Failed to fetch employees:', error);
-    }
+    const response = await employeesAPI.getEmployees();
+    dispatch(setEmployees(response));
+};
+
+export const fetchTeams = () => async (dispatch) => {
+    const response = await employeesAPI.getTeams();
+    console.log('reducer', response);
+    dispatch(setTeams(response));
 };
 
 export default employeesSlice.reducer;

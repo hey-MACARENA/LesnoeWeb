@@ -1,15 +1,7 @@
 import { Table } from 'antd';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchEmployees } from '../../redux/employeesReducer';
+import React from 'react';
 
-function EmployeesTable() {
-  const list = useSelector((state) => state.employees.list);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchEmployees());
-  }, []);
+function EmployeesTable(props) {
 
   const columns = [
     {
@@ -46,7 +38,7 @@ function EmployeesTable() {
 
   return ( 
     <Table
-      dataSource={list}
+      dataSource={props.employees}
       columns={columns}
     />
   );
