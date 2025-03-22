@@ -1,19 +1,27 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { Col, Row } from 'antd';
+import { ConfigProvider, theme, Col, Row } from 'antd';
 import Navbar from "./components/Navbar/Navbar";
 import Employees from "./components/Employees/Employees";
 
 function App() {
   return (
-    <Row>
-      <Col span={6}>
-        <Navbar/>
-      </Col>
-      <Col span={18}>
-        <Employees/>
-      </Col>
-    </Row>
+    <div style={{backgroundColor: "#010005"}}>
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm, // Установка темной темы
+      }}
+    >
+      <Row>
+        <Col span={5}>
+          <Navbar/>
+        </Col>
+        <Col span={18}>
+          <Employees/>
+        </Col>
+      </Row>
+    </ConfigProvider>
+    </div>
   );
 }
 
