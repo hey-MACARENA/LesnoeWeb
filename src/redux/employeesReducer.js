@@ -21,14 +21,14 @@ const employeesSlice = createSlice({
 
 export const { setEmployees, setTeams } = employeesSlice.actions;
 
-export const fetchEmployees = () => async (dispatch) => {
-    const response = await employeesAPI.getEmployees();
+export const fetchEmployees = (team = null, filter = null) => async (dispatch) => {
+    console.log(team, filter);
+    const response = await employeesAPI.getEmployees(team, filter);
     dispatch(setEmployees(response));
 };
 
 export const fetchTeams = () => async (dispatch) => {
     const response = await employeesAPI.getTeams();
-    console.log('reducer', response);
     dispatch(setTeams(response));
 };
 
