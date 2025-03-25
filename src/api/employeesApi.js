@@ -4,8 +4,8 @@ export const employeesAPI = {
     getEmployees(teamId, sort) {
         return instance.get('api/employees', {
             params: {
-                teamId: teamId, // Параметр team будет передан как teamId
-                sort: sort    // Параметр sort будет передан как есть
+                teamId: teamId,
+                sort: sort
             }
         })
         .then(response => {
@@ -14,6 +14,18 @@ export const employeesAPI = {
     },
     getTeams() {
         return instance.get('api/teams')
+            .then(response => {
+                return response.data;
+            })
+    },
+    getPositions() {
+        return instance.get('api/positions')
+            .then(response => {
+                return response.data;
+            })
+    },
+    getSections() {
+        return instance.get('api/sections')
             .then(response => {
                 return response.data;
             })
