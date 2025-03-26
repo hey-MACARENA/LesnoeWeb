@@ -24,10 +24,26 @@ export const employeesAPI = {
                 return response.data;
             })
     },
-    getSections() {
-        return instance.get('api/sections')
-            .then(response => {
-                return response.data;
-            })
+    getSections(getClear = false) {
+        return instance.get('api/sections', {
+            params: {
+                getClear: getClear,
+            }
+        })
+        .then(response => {
+            return response.data;
+        })
     },
+    postEmployee(employee) {
+        let jsonEmployee = {
+            name: employee.name,
+            position_id: employee.position,
+            section_id: employee.section,
+            team_id: employee.team,
+            work_experience: employee.work_experience,
+            residence: employee.residence,
+        }
+
+        return instance.post('api/employees', jsonEmployee);
+    }
 };

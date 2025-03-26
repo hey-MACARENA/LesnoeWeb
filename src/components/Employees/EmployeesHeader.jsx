@@ -1,27 +1,27 @@
 import { Col, Row, Dropdown, Space, Typography } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React from "react";
 
 const { Title } = Typography;
 
 function EmployeesHeader(props) {
-  const [filter, setFilter] = useState(null);
-  const [team, setTeam] = useState(null);
 
-  const handleFilterChange = (e) => {
+  const handleSortChange = (e) => {
     e.preventDefault();
 
-    let _filter = e.target.dataset.key;
-    setFilter(_filter);
-    props.dispatch(props.fetchEmployees(team, _filter));
+    let sort = e.target.dataset.key;
+    let teamFilter = props.teamFilter;
+    props.setFilters({teamFilter, sort});
+    props.dispatch(props.fetchEmployees(props.teamFilter, sort));
   };
 
   const handleTeamChange = (e) => {
     e.preventDefault();
 
-    let _team = e.target.dataset.key;
-    setTeam(_team);
-    props.dispatch(props.fetchEmployees(_team, filter));
+    let team = e.target.dataset.key;
+    let sortFilter = props.sortFilter;
+    props.setFilters({team, sortFilter});
+    props.dispatch(props.fetchEmployees(team, props.sortFilter));
   };
 
   const sortItems = [
@@ -29,9 +29,9 @@ function EmployeesHeader(props) {
       key: "1",
       label: (
         <a
-          data-key={'name'}
+          data-key={null}
           rel="noopener noreferrer"
-          onClick={handleFilterChange}
+          onClick={handleSortChange}
         >
           ФИО
         </a>
@@ -43,7 +43,7 @@ function EmployeesHeader(props) {
         <a
           data-key={'section'}
           rel="noopener noreferrer"
-          onClick={handleFilterChange}
+          onClick={handleSortChange}
         >
           Кварталы
         </a>
@@ -55,7 +55,7 @@ function EmployeesHeader(props) {
         <a
           data-key={'position'}
           rel="noopener noreferrer"
-          onClick={handleFilterChange}
+          onClick={handleSortChange}
         >
           Должности
         </a>
@@ -67,7 +67,7 @@ function EmployeesHeader(props) {
         <a
           data-key={'residence'}
           rel="noopener noreferrer"
-          onClick={handleFilterChange}
+          onClick={handleSortChange}
         >
           Адрес
         </a>
@@ -79,7 +79,7 @@ function EmployeesHeader(props) {
         <a
           data-key={'experience'}
           rel="noopener noreferrer"
-          onClick={handleFilterChange}
+          onClick={handleSortChange}
         >
           Опыт
         </a>

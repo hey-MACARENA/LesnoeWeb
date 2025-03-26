@@ -1,4 +1,13 @@
-import { Col, Row, Typography, Button, Form, Input, Select, Space } from "antd";
+import {
+  Col,
+  Row,
+  Typography,
+  Button,
+  Form,
+  Input,
+  Select,
+  InputNumber,
+} from "antd";
 import React from "react";
 
 const { Text } = Typography;
@@ -8,7 +17,8 @@ function EmployeesAdder(props) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log(values);
+    props.dispatch(props.addNewEmployee(values, props.teamFilter, props.sortFilter));
+    form.resetFields();
   };
 
   return (
@@ -17,16 +27,16 @@ function EmployeesAdder(props) {
         <Col span={4}>
           <Text>Имя</Text>
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <Text>Должность</Text>
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <Text>Квартал</Text>
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <Text>Бригада</Text>
         </Col>
-        <Col span={3}>
+        <Col span={2}>
           <Text>Опыт</Text>
         </Col>
         <Col span={4}>
@@ -35,24 +45,27 @@ function EmployeesAdder(props) {
       </Row>
 
       <Form layout="inline" form={form} onFinish={onFinish}>
-        <Row>
+        <Row style={{ width: "100%" }}>
           <Col span={4}>
             <Form.Item name="name" rules={[{ required: true }]}>
-              <Input placeholder="Введите имя" />
+              <Input placeholder="Введите имя" maxLength={30}/>
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <Form.Item name="position" rules={[{ required: true }]}>
               <Select allowClear placeholder="Выберите должность">
                 {props.positions.map((position) => (
-                  <Option key={position.position_id} value={position.position_id}>
+                  <Option
+                    key={position.position_id}
+                    value={position.position_id}
+                  >
                     {position.position_name}
                   </Option>
                 ))}
               </Select>
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <Form.Item name="section" rules={[{ required: true }]}>
               <Select allowClear placeholder="Выберите квартал">
                 {props.sections.map((section) => (
@@ -63,7 +76,7 @@ function EmployeesAdder(props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <Form.Item name="team" rules={[{ required: true }]}>
               <Select allowClear placeholder="Выберите бригаду">
                 {props.teams.map((team) => (
@@ -74,17 +87,17 @@ function EmployeesAdder(props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2}>
             <Form.Item name="work_experience" rules={[{ required: true }]}>
-              <Input placeholder="Введите опыт" />
-            </Form.Item>
-          </Col>
-          <Col span={3}>
-            <Form.Item name="residence" rules={[{ required: true }]}>
-              <Input placeholder="Введите адрес" />
+              <InputNumber min={0} max={99} placeholder="Введите опыт" />
             </Form.Item>
           </Col>
           <Col span={4}>
+            <Form.Item name="residence" rules={[{ required: true }]}>
+              <Input placeholder="Введите адрес" maxLength={50}/>
+            </Form.Item>
+          </Col>
+          <Col>
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 Submit

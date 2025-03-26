@@ -6,6 +6,8 @@ const employeesSlice = createSlice({
     initialState: {
         employees: [],
         count: 0,
+        teamFilter: null,
+        sortFilter: null,
         teams: [],
         positions: [],
         sections: [],
@@ -14,6 +16,10 @@ const employeesSlice = createSlice({
         setEmployees: (state, action) => {
             state.employees = action.payload.data;
             state.count = action.payload.count;
+        },
+        setFilters: (state, action) => {
+            state.teamFilterFilter = action.payload.team;
+            state.sortFilter = action.payload.sort;
         },
         setTeams: (state, action) => {
             state.teams = action.payload;
@@ -27,11 +33,12 @@ const employeesSlice = createSlice({
     },
 });
 
-export const { setEmployees, setTeams, setPositions, setSections } = employeesSlice.actions;
+export const { setEmployees, setFilters, setTeams, setPositions, setSections } = employeesSlice.actions;
 
-export const fetchEmployees = (team = null, filter = null) => async (dispatch) => {
-    const response = await employeesAPI.getEmployees(team, filter);
+export const fetchEmployees = (team = null, sort = null) => async (dispatch) => {
+    const response = await employeesAPI.getEmployees(team, sort);
     dispatch(setEmployees(response));
+    dispatch(setFilters({team, sort}));
 };
 
 export const fetchTeams = () => async (dispatch) => {
@@ -44,9 +51,15 @@ export const fetchPositions = () => async (dispatch) => {
     dispatch(setPositions(response));
 };
 
-export const fetchSections = () => async (dispatch) => {
-    const response = await employeesAPI.getSections();
+export const fetchSections = (getClear) => async (dispatch) => {
+    const response = await employeesAPI.getSections(getClear);
     dispatch(setSections(response));
+};
+
+export const addNewEmployee = (newEmployee, team = null, sort = null) => async (dispatch) => {
+    await employeesAPI.postEmployee(newEmployee);
+    const response = await employeesAPI.getEmployees(team, sort);
+    dispatch(setEmployees(response));
 };
 
 export default employeesSlice.reducer;

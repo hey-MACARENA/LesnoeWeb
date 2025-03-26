@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import EmployeesTable from "./EmployeesTable";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addNewEmployee,
   fetchEmployees,
   fetchPositions,
   fetchSections,
   fetchTeams,
+  setFilters,
 } from "../../redux/employeesReducer";
 import EmployeesHeader from "./EmployeesHeader";
 import { Divider } from "antd";
@@ -19,12 +21,14 @@ function Employees() {
   const positions = useSelector((state) => state.employees.positions);
   const sections = useSelector((state) => state.employees.sections);
 
+  const teamFilter = useSelector((state) => state.employees.teamFilter);
+  const sortFilter = useSelector((state) => state.employees.sortFilter);
+
   useEffect(() => {
     dispatch(fetchEmployees());
     dispatch(fetchTeams());
     dispatch(fetchPositions());
-    dispatch(fetchSections());
-    console.log(sections);
+    dispatch(fetchSections(true));
   }, []);
 
   return (
@@ -35,8 +39,19 @@ function Employees() {
         fetchEmployees={fetchEmployees}
         teams={teams}
         count={count}
+        setFilters={setFilters}
+        teamFilter={teamFilter}
+        sortFilter={sortFilter}
       />
-      <EmployeesAdder positions={positions} sections={sections} teams={teams} />
+      <EmployeesAdder
+        dispatch={dispatch}
+        addNewEmployee={addNewEmployee}
+        positions={positions}
+        sections={sections}
+        teams={teams}
+        teamFilter={teamFilter}
+        sortFilter={sortFilter}
+      />
       <Divider></Divider>
       <EmployeesTable employees={employees} />
     </div>
