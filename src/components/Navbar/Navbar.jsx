@@ -54,9 +54,9 @@ function Navbar() {
 
   return (
     <div
-      style={{
-        width: 256,
-      }}
+    style={{
+      marginRight: 30,
+    }}
     >
       <Menu
         defaultSelectedKeys={['1']}

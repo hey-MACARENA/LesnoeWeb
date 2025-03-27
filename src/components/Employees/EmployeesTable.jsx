@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteTwoTone } from '@ant-design/icons';
 import { Table } from 'antd';
 import React from 'react';
 
@@ -36,9 +36,9 @@ function EmployeesTable(props) {
     },
     {
       title: '',
-      key: 'action', // Уникальный ключ для колонки с действиями
+      key: 'action',
       render: (text, record) => (
-        <DeleteOutlined onClick={() => handleDelete(record.employee_id)}></DeleteOutlined>
+        <DeleteTwoTone onClick={() => handleDelete(record.employee_id)}></DeleteTwoTone>
       ),
     },
   ]

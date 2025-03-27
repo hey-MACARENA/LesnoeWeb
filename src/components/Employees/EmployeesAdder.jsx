@@ -27,13 +27,13 @@ function EmployeesAdder(props) {
         <Col span={4}>
           <Text>Имя</Text>
         </Col>
-        <Col span={4}>
+        <Col span={3}>
           <Text>Должность</Text>
         </Col>
-        <Col span={4}>
+        <Col span={3}>
           <Text>Квартал</Text>
         </Col>
-        <Col span={4}>
+        <Col span={3}>
           <Text>Бригада</Text>
         </Col>
         <Col span={2}>
@@ -47,12 +47,12 @@ function EmployeesAdder(props) {
       <Form layout="inline" form={form} onFinish={onFinish}>
         <Row style={{ width: "100%" }}>
           <Col span={4}>
-            <Form.Item name="name" rules={[{ required: true }]}>
+            <Form.Item name="name" rules={[{ required: true, message: 'Это обязательное поле' }]}>
               <Input placeholder="Введите имя" maxLength={30}/>
             </Form.Item>
           </Col>
-          <Col span={4}>
-            <Form.Item name="position" rules={[{ required: true }]}>
+          <Col span={3}>
+            <Form.Item name="position" rules={[{ required: true, message: 'Это обязательное поле' }]}>
               <Select allowClear placeholder="Выберите должность">
                 {props.positions.map((position) => (
                   <Option
@@ -65,7 +65,7 @@ function EmployeesAdder(props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name="section" >
               <Select allowClear placeholder="Выберите квартал">
                 {props.sections.map((section) => (
@@ -76,7 +76,7 @@ function EmployeesAdder(props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name="team" >
               <Select allowClear placeholder="Выберите бригаду">
                 {props.teams.map((team) => (
@@ -88,19 +88,19 @@ function EmployeesAdder(props) {
             </Form.Item>
           </Col>
           <Col span={2}>
-            <Form.Item name="work_experience" rules={[{ required: true }]}>
-              <InputNumber min={0} max={99} placeholder="Введите опыт" />
+            <Form.Item name="work_experience" rules={[{ required: true, message: 'Это обязательное поле' }]}>
+              <InputNumber min={0} max={99} placeholder="Введите опыт" style={{width: '100%'}}/>
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item name="residence" rules={[{ required: true }]}>
+            <Form.Item name="residence" rules={[{ required: true, message: 'Это обязательное поле' }]}>
               <Input placeholder="Введите адрес" maxLength={50}/>
             </Form.Item>
           </Col>
-          <Col>
+          <Col offset={2}>
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Submit
+                Добавить
               </Button>
             </Form.Item>
           </Col>
