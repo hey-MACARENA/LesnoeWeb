@@ -45,5 +45,8 @@ export const employeesAPI = {
         }
 
         return instance.post('api/employees', jsonEmployee);
+    },
+    deleteEmployee(employeeId) {
+        return instance.delete(`api/employees/${employeeId}`);
     }
 };

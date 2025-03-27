@@ -3,6 +3,7 @@ import EmployeesTable from "./EmployeesTable";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewEmployee,
+  deleteEmployee,
   fetchEmployees,
   fetchPositions,
   fetchSections,
@@ -15,9 +16,11 @@ import EmployeesAdder from "./EmployeesAdder";
 
 function Employees() {
   const dispatch = useDispatch();
+
   const employees = useSelector((state) => state.employees.employees);
   const teams = useSelector((state) => state.employees.teams);
   const count = useSelector((state) => state.employees.count);
+
   const positions = useSelector((state) => state.employees.positions);
   const sections = useSelector((state) => state.employees.sections);
 
@@ -53,7 +56,13 @@ function Employees() {
         sortFilter={sortFilter}
       />
       <Divider></Divider>
-      <EmployeesTable employees={employees} />
+      <EmployeesTable
+        dispatch={dispatch}
+        deleteEmployee={deleteEmployee}
+        employees={employees}
+        teamFilter={teamFilter}
+        sortFilter={sortFilter}
+      />
     </div>
   );
 }

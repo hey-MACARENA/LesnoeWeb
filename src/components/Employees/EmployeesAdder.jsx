@@ -66,7 +66,7 @@ function EmployeesAdder(props) {
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item name="section" rules={[{ required: true }]}>
+            <Form.Item name="section" >
               <Select allowClear placeholder="Выберите квартал">
                 {props.sections.map((section) => (
                   <Option key={section.section_id} value={section.section_id}>
@@ -77,7 +77,7 @@ function EmployeesAdder(props) {
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item name="team" rules={[{ required: true }]}>
+            <Form.Item name="team" >
               <Select allowClear placeholder="Выберите бригаду">
                 {props.teams.map((team) => (
                   <Option key={team.team_id} value={team.team_id}>

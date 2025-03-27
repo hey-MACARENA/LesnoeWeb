@@ -1,8 +1,8 @@
+import { DeleteOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import React from 'react';
 
 function EmployeesTable(props) {
-
   const columns = [
     {
       title: 'Имя',
@@ -34,7 +34,18 @@ function EmployeesTable(props) {
       dataIndex: 'residence',
       key: 'residence',
     },
+    {
+      title: '',
+      key: 'action', // Уникальный ключ для колонки с действиями
+      render: (text, record) => (
+        <DeleteOutlined onClick={() => handleDelete(record.employee_id)}></DeleteOutlined>
+      ),
+    },
   ]
+
+  const handleDelete = (employeeId) => {
+    props.dispatch(props.deleteEmployee(employeeId, props.teamFilter, props.sortFilter));
+  };
 
   return ( 
     <Table
