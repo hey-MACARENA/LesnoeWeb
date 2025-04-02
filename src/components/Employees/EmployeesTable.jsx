@@ -1,5 +1,5 @@
 import { CheckSquareTwoTone, CloseSquareTwoTone, DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
-import { Table, Form, Input, Select, InputNumber } from 'antd';
+import { Table, Form, Input, Select, InputNumber, Popconfirm } from 'antd';
 import React, { useState } from 'react';
 
 const { Option } = Select;
@@ -157,7 +157,9 @@ function EmployeesTable(props) {
         ) : (
           <div style={{display:'flex', justifyContent:'space-around'}}>
             <EditTwoTone onClick={() => handleEdit(record)}/>
-            <DeleteTwoTone onClick={() => handleDelete(record.employee_id)} />
+            <Popconfirm title="Точно?" okText="Да" cancelText="Нет" onConfirm={() => handleDelete(record.employee_id)}>
+              <DeleteTwoTone  />
+            </Popconfirm>
           </div>
         )
       ),
