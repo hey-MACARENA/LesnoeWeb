@@ -62,6 +62,12 @@ export const addNewEmployee = (newEmployee, team = null, sort = null) => async (
     dispatch(setEmployees(response));
 };
 
+export const editEmployee = (employeeId, values, team = null, sort = null) => async (dispatch) => {
+    await employeesAPI.putEmployee(employeeId, values);
+    const response = await employeesAPI.getEmployees(team, sort);
+    dispatch(setEmployees(response));
+}
+
 export const deleteEmployee = (employeeId, team = null, sort = null) => async (dispatch) => {
     await employeesAPI.deleteEmployee(employeeId);
     const response = await employeesAPI.getEmployees(team, sort);

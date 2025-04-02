@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNewEmployee,
   deleteEmployee,
+  editEmployee,
   fetchEmployees,
   fetchPositions,
   fetchSections,
@@ -59,7 +60,11 @@ function Employees() {
       <EmployeesTable
         dispatch={dispatch}
         deleteEmployee={deleteEmployee}
+        editEmployee={editEmployee}
         employees={employees}
+        positions={positions}
+        sections={sections}
+        teams={teams}
         teamFilter={teamFilter}
         sortFilter={sortFilter}
       />

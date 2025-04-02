@@ -46,6 +46,18 @@ export const employeesAPI = {
 
         return instance.post('api/employees', jsonEmployee);
     },
+    putEmployee(employeeId, employee) {
+        let jsonEmployee = {
+            name: employee.name,
+            position_id: employee.position,
+            section_id: employee.section,
+            team_id: employee.team,
+            work_experience: employee.work_experience,
+            residence: employee.residence,
+        }
+
+        return instance.put(`api/employees/${employeeId}`, jsonEmployee);
+    },
     deleteEmployee(employeeId) {
         return instance.delete(`api/employees/${employeeId}`);
     }
