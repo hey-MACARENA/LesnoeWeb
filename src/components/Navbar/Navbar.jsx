@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   AppstoreOutlined,
   ContainerOutlined,
@@ -10,19 +11,14 @@ import { Menu } from 'antd';
 
 const items = [
     {
-      key: '1',
+      key: '/employees',
       icon: <PieChartOutlined />,
-      label: 'Option 1',
+      label: 'Сотрудники',
     },
     {
-      key: '2',
+      key: '/sections',
       icon: <DesktopOutlined />,
-      label: 'Option 2',
-    },
-    {
-      key: '3',
-      icon: <ContainerOutlined />,
-      label: 'Option 3',
+      label: 'Кварталы',
     },
     {
       key: 'sub1',
@@ -37,20 +33,17 @@ const items = [
           key: '6',
           label: 'Option 6',
         },
-        {
-          key: '7',
-          label: 'Option 7',
-        },
-        {
-          key: '8',
-          label: 'Option 8',
-        },
       ],
     },
   ];
 
 function Navbar() {
   const [collapsed] = useState(false);
+
+  const navigate = useNavigate();
+  const handleMenuClick = (e) => {
+    navigate(e.key);
+  };
 
   return (
     <div
@@ -59,8 +52,9 @@ function Navbar() {
     }}
     >
       <Menu
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={['/employees']}
         mode="inline"
+        onClick={handleMenuClick}
         inlineCollapsed={collapsed}
         items={items}
       />
