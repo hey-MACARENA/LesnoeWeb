@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import employeesReducer from './employeesReducer';
-import sectionsReducer from './sectionsReducer';
+import rowReducer from './rowReducer';
 
 const store = configureStore({
     reducer: {
-        employees: employeesReducer,
-        sections: sectionsReducer,
+        rows: rowReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(), 
 });

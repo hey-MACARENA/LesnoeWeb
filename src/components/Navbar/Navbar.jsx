@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  AppstoreOutlined,
-  ContainerOutlined,
   DesktopOutlined,
   MailOutlined,
   PieChartOutlined,
@@ -11,14 +9,14 @@ import { Menu } from 'antd';
 
 const items = [
     {
-      key: '/employees',
+      key: '/employeestable',
       icon: <PieChartOutlined />,
       label: 'Сотрудники',
     },
     {
-      key: '/sections',
+      key: '/leavestable',
       icon: <DesktopOutlined />,
-      label: 'Кварталы',
+      label: 'Отпуска',
     },
     {
       key: 'sub1',
@@ -52,7 +50,7 @@ function Navbar() {
     }}
     >
       <Menu
-        defaultSelectedKeys={['/employees']}
+        defaultSelectedKeys={['/employeestable']}
         mode="inline"
         onClick={handleMenuClick}
         inlineCollapsed={collapsed}

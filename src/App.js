@@ -2,8 +2,7 @@ import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { ConfigProvider, theme, Col, Row } from "antd";
 import Navbar from "./components/Navbar/Navbar";
-import Employees from "./components/Employees/Employees";
-import Sections from "./components/Sections/Sections";
+import MainContainer from "./components/Main/MainContainer";
 
 function App() {
   return (
@@ -18,11 +17,7 @@ function App() {
             <Navbar />
           </Col>
           <Col span={18}>
-            <Routes>
-              <Route path="/employees" element={<Employees />} />
-              <Route path="/sections" element={<Sections />} />
-              <Route path="/" element={<Navigate to="/employees" />} />
-            </Routes>
+            <MainContainer />
           </Col>
         </Row>
       </ConfigProvider>
