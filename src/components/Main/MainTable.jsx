@@ -35,12 +35,12 @@ function MainTable(props) {
 
   const tableColumns = [
     ...props.columns.map((column) => ({
-      title: column.label, // Заголовок столбца
-      dataIndex: column.name, // Ключ для доступа к данным
-      key: column.name, // Уникальный ключ столбца
+      title: column.label,
+      dataIndex: column.name, 
+      key: column.name,
     })),
     {
-      title: 'Действия', // Столбец с кнопками действий
+      title: 'Действия',
       key: 'actions',
       render: (text, record) => (
         editingEmployeeId === record.employee_id ? (

@@ -18,6 +18,9 @@ function App() {
           </Col>
           <Col span={18}>
             <MainContainer />
+            <Routes>
+              <Route path="/" element={<Navigate to="/employeestable" />} />
+            </Routes>
           </Col>
         </Row>
       </ConfigProvider>

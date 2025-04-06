@@ -4,7 +4,6 @@ export const rowAPI = {
     getData(url) {
         return instance.get(`api${url}`)
             .then(response => {
-                console.log(response.data);
                 return response.data;
             });
     },
@@ -14,8 +13,8 @@ export const rowAPI = {
                 return response.data;
             })
     },
-    postRow(url, row) {
-        return instance.post(`api${url}`, row);
+    postRow(crudUrl, row) {
+        return instance.post(`api${crudUrl}`, row);
     },
     putRow(url, rowId, row) {
         return instance.put(`api${url}/${rowId}`, row);

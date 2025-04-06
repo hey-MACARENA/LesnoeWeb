@@ -5,17 +5,21 @@ const rowSlice = createSlice({
     name: 'rows',
     initialState: {
         url: '',
+        crudUrl: '',
         idName: '',
         columns: [],
         rows: [],
         totalRows: 0,
+        extras: { },
         teamFilter: null,
         sortFilter: null,
-        teams: [],
     },
     reducers: {
         setUrl: (state, acion) => {
             state.url = acion.payload;
+        },
+        setCrudUrl: (state, acion) => {
+            state.crudUrl = acion.payload;
         },
         setIdName: (state, action) => {
             state.idName = action.payload;
@@ -31,29 +35,30 @@ const rowSlice = createSlice({
             state.teamFilterFilter = action.payload.team;
             state.sortFilter = action.payload.sort;
         },
-        setTeams: (state, action) => {
-            state.teams = action.payload;
+        setExtras: (state, action) => {
+            state.extras[action.payload.url] = action.payload.response;
         },
     },
 });
 
-export const { setUrl, setIdName, setComlumns, setRows, setFilters, setTeams } = rowSlice.actions;
+export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setFilters, setExtras } = rowSlice.actions;
 
 export const fetchData = (url) => async (dispatch) => {
     const response = await rowAPI.getData(url);
+    dispatch(setCrudUrl(response.crudUrl));
     dispatch(setIdName(response.idName));
     dispatch(setComlumns(response.columns));
     dispatch(setRows({ rows: response.rows, totalRows: response.totalRows }));
 };
 
-export const fetchTeams = () => async (dispatch) => {
-    const response = await rowAPI.getExtras();
-    dispatch(setTeams(response));
+export const fetchExtras = (url) => async (dispatch) => {
+    const response = await rowAPI.getExtras(url);
+    dispatch(setExtras({ url: url, response: response }));
 }
 
-export const addNewEmployee = (newEmployee, team = null, sort = null) => async (dispatch) => {
-    await rowAPI.postRow(newEmployee);
-    const response = await rowAPI.getData(team, sort);
+export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {
+    await rowAPI.postRow(crudUrl, newRow);
+    const response = await rowAPI.getData(url);
     dispatch(setRows(response));
 };
 
