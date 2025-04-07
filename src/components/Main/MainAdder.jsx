@@ -9,6 +9,8 @@ import React from "react";
 import ItemText from "../FromItems/ItemText";
 import ItemNumber from "../FromItems/ItemNumber";
 import ItemSelect from "../FromItems/ItemSelect";
+import ItemRange from "../FromItems/ItemRange";
+import ItemDate from "../FromItems/ItemDate";
 
 const { Text } = Typography;
 
@@ -21,6 +23,7 @@ function MainAdder(props) {
     let maxChar = 0;
     let minNum = 0;
     let maxNum = 0;
+    let intOnly = true;
     let url = '';
 
     if (column) {
@@ -29,6 +32,7 @@ function MainAdder(props) {
       maxChar = column.settings.maxChar;
       minNum = column.settings.minNum;
       maxNum = column.settings.maxNum;
+      intOnly = column.settings.intOnly;
       url = column.settings.url;
     }
 
@@ -36,16 +40,19 @@ function MainAdder(props) {
       case 'text':
         return <ItemText id={id} customRules={customRules} maxChar={maxChar} />;
       case 'number':
-        return <ItemNumber id={id} customRules={customRules} minNum={minNum} maxNum={maxNum} />;
+        return <ItemNumber id={id} customRules={customRules} minNum={minNum} maxNum={maxNum} intOnly={intOnly} />;
       case 'select':
-        return <ItemSelect id={id} customRules={customRules} url={url} dispatch={props.dispatch} fetchExtras={props.fetchExtras} extras={props.extras} />;
+        return <ItemSelect id={id} customRules={customRules} url={url} extras={props.extras}  dispatch={props.dispatch} fetchExtras={props.fetchExtras}/>;
+      case 'date':
+        return <ItemDate id={id} customRules={customRules} />;
+      case 'start_date':
+        return <ItemRange id={id} customRules={customRules} />;
       default:
         return null;
     }
   };
 
   const onFinish = (values) => {
-    console.log(values);
     props.dispatch(props.addNewRow(props.url, props.crudUrl, values));
     form.resetFields();
   };
@@ -63,11 +70,11 @@ function MainAdder(props) {
       <Form layout="inline" form={form} onFinish={onFinish}>
         <Row style={{ width: "100%" }}>
           {props.columns.map((column) => (
-          <Col key={column.name} span={column.type === 'number' ? 2 : 3}>
+          <Col key={column.name} span={column.type === 'number' ? 2 : column.type === 'start_date' ? 6 : 3}>
             {renderField(column)}
           </Col>
           ))}
-          <Col offset={2}>
+          <Col>
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 Добавить

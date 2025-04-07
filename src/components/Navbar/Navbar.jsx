@@ -19,6 +19,11 @@ const items = [
       label: 'Отпуска',
     },
     {
+      key: '/TravelSheetsTable',
+      icon: <DesktopOutlined />,
+      label: 'Путеводные листы',
+    },
+    {
       key: 'sub1',
       label: 'Navigation One',
       icon: <MailOutlined />,

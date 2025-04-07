@@ -57,7 +57,25 @@ export const fetchExtras = (url) => async (dispatch) => {
 }
 
 export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {
-    await rowAPI.postRow(crudUrl, newRow);
+    let transformedRow = newRow;
+
+    if (newRow.start_date) {
+    transformedRow = {
+            ...newRow,
+            start_date: new Date(newRow.start_date[0]).toISOString().split('T')[0],
+            end_date: new Date(newRow.start_date[1]).toISOString().split('T')[0]
+        };
+    }
+
+    if (newRow.departure_date) {
+    transformedRow = {
+            ...newRow,
+            departure_date: new Date(newRow.departure_date).toISOString().split('T')[0],
+        };
+    }
+
+    console.log(transformedRow);
+    await rowAPI.postRow(crudUrl, transformedRow);
     const response = await rowAPI.getData(url);
     dispatch(setRows(response));
 };
