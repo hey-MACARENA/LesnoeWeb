@@ -3,16 +3,17 @@ import {
   Form,
 } from "antd";
 import React from "react";
+const { RangePicker } = DatePicker;
 
-function ItemDate(props) {
+function ItemRange(props) {
 
   return (
     <>
       <Form.Item name={ props.id } rules={props.customRules}>
-        <DatePicker placeholder="Введите" maxLength={props.maxChar}/>
+        <RangePicker placeholder="Введите"/>
       </Form.Item>
     </>
   );
 }
 
-export default ItemDate;
+export default ItemRange;

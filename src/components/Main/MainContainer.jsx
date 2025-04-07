@@ -3,6 +3,8 @@ import MainTable from "./MainTable";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewRow,
+  deleteRow,
+  editRow,
   fetchData,
   fetchExtras,
   setUrl,
@@ -37,20 +39,26 @@ function MainContainer() {
     <div>
       <Divider></Divider>
       <MainAdder
+        dispatch={dispatch}
+        fetchExtras={fetchExtras}
+        addNewRow={addNewRow}
         columns={columns}
         extras={extras}
         url={url}
         crudUrl={crudUrl}
-        dispatch={dispatch}
-        fetchExtras={fetchExtras}
-        addNewRow={addNewRow}
       />
       <Divider></Divider>
       <MainTable
         dispatch={dispatch}
+        fetchExtras={fetchExtras}
+        editRow={editRow}
+        deleteRow={deleteRow}
         idName={idName}
         columns={columns}
         rows={rows}
+        extras={extras}
+        url={url}
+        crudUrl={crudUrl}
       />
     </div>
   );

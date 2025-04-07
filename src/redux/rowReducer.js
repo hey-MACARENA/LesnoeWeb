@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { rowAPI } from "../api/rowApi";
+import dayjs from 'dayjs';
 
 const rowSlice = createSlice({
     name: 'rows',
@@ -60,35 +61,50 @@ export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {
     let transformedRow = newRow;
 
     if (newRow.start_date) {
-    transformedRow = {
+        transformedRow = {
             ...newRow,
-            start_date: new Date(newRow.start_date[0]).toISOString().split('T')[0],
-            end_date: new Date(newRow.start_date[1]).toISOString().split('T')[0]
+            start_date: newRow.start_date[0].format('YYYY-MM-DD'),
+            end_date: newRow.start_date[1].format('YYYY-MM-DD')
         };
     }
 
-    if (newRow.departure_date) {
-    transformedRow = {
-            ...newRow,
-            departure_date: new Date(newRow.departure_date).toISOString().split('T')[0],
-        };
+    for (const key in newRow) {
+        if (dayjs.isDayjs(newRow[key])) {
+            transformedRow[key] = newRow[key].format('YYYY-MM-DD');
+        }
     }
 
-    console.log(transformedRow);
     await rowAPI.postRow(crudUrl, transformedRow);
     const response = await rowAPI.getData(url);
     dispatch(setRows(response));
 };
 
-export const editEmployee = (employeeId, values, team = null, sort = null) => async (dispatch) => {
-    await rowAPI.putRow(employeeId, values);
-    const response = await rowAPI.getData(team, sort);
+export const editRow = (url, crudUrl, rowId, editableRow) => async (dispatch) => {
+    let transformedRow = editableRow;
+
+    console.log(editableRow);
+    if (editableRow.start_date) {
+        transformedRow = {
+            ...editableRow,
+            start_date: editableRow.start_date[0].format('YYYY-MM-DD'),
+            end_date: editableRow.start_date[1].format('YYYY-MM-DD')
+        };
+    }
+
+    for (const key in editableRow) {
+        if (dayjs.isDayjs(editableRow[key])) {
+            transformedRow[key] = editableRow[key].format('YYYY-MM-DD');
+        }
+    }
+    console.log(transformedRow);
+    await rowAPI.putRow(crudUrl, rowId, transformedRow);
+    const response = await rowAPI.getData(url);
     dispatch(setRows(response));
 }
 
-export const deleteEmployee = (employeeId, team = null, sort = null) => async (dispatch) => {
-    await rowAPI.deleteEmployee(employeeId);
-    const response = await rowAPI.getData(team, sort);
+export const deleteRow = (url, crudUrl, rowId) => async (dispatch) => {
+    await rowAPI.deletROw(crudUrl, rowId);
+    const response = await rowAPI.getData(url);
     dispatch(setRows(response));
 }
 
