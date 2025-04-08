@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { rowAPI } from "../api/rowApi";
 import dayjs from 'dayjs';
 
@@ -12,8 +12,8 @@ const rowSlice = createSlice({
         rows: [],
         totalRows: 0,
         extras: { },
-        teamFilter: null,
-        sortFilter: null,
+        sorts: [],
+        currentSort: '',
     },
     reducers: {
         setUrl: (state, acion) => {
@@ -32,9 +32,11 @@ const rowSlice = createSlice({
             state.rows = action.payload.rows;
             state.totalRows = action.payload.totalRows;
         },
-        setFilters: (state, action) => {
-            state.teamFilterFilter = action.payload.team;
-            state.sortFilter = action.payload.sort;
+        setSorts: (state, action) => {
+            state.sorts = action.payload;
+        },
+        setCurrentSort: (state, action) => {
+            state.currentSort = action.payload;
         },
         setExtras: (state, action) => {
             state.extras[action.payload.url] = action.payload.response;
@@ -42,19 +44,24 @@ const rowSlice = createSlice({
     },
 });
 
-export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setFilters, setExtras } = rowSlice.actions;
+export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setSorts, setCurrentSort, setExtras } = rowSlice.actions;
 
-export const fetchData = (url) => async (dispatch) => {
-    const response = await rowAPI.getData(url);
+export const fetchData = (url, sortName) => async (dispatch) => {
+    const response = await rowAPI.getData(url, sortName);
     dispatch(setCrudUrl(response.crudUrl));
     dispatch(setIdName(response.idName));
     dispatch(setComlumns(response.columns));
     dispatch(setRows({ rows: response.rows, totalRows: response.totalRows }));
+    dispatch(setSorts(response.columns.map(column => ({ name: column.name, label: column.label }) )));
 };
 
 export const fetchExtras = (url) => async (dispatch) => {
     const response = await rowAPI.getExtras(url);
     dispatch(setExtras({ url: url, response: response }));
+}
+
+export const changeCurrentSort = (currentSort) => async (dispatch) => {
+    dispatch(setCurrentSort(currentSort));
 }
 
 export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {

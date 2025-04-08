@@ -1,11 +1,15 @@
 import { instance } from './api';
 
 export const rowAPI = {
-    getData(url) {
-        return instance.get(`api${url}`)
-            .then(response => {
-                return response.data;
-            });
+    getData(url, sortName) {
+        return instance.get(`api${url}`, {
+            params: {
+                sort: sortName
+            }
+        })
+        .then(response => {
+            return response.data;
+        });
     },
     getExtras(url) {
         return instance.get(`api${url}`)
