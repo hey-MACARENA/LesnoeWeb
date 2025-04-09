@@ -4,8 +4,8 @@ import {
   DeleteTwoTone,
   EditTwoTone,
 } from "@ant-design/icons";
-import { Table, Form, Input, Select, InputNumber, Popconfirm } from "antd";
-import React, { useState } from "react";
+import { Table, Form, Popconfirm } from "antd";
+import React, { useEffect, useState } from "react";
 import { renderField } from "./MainAdder";
 import dayjs from "dayjs";
 
@@ -13,13 +13,22 @@ function MainTable(props) {
   const [editingRowId, setEditingRowId] = useState(null);
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    setEditingRowId(-1);
+  }, [props.columns]);
+
   const handleEdit = (record) => {
     setEditingRowId(record[props.idName]);
 
     const updatedRecord = { ...record };
 
     for (const key in updatedRecord) {
-      if (key === "start_date") {
+      if ( Array.isArray(updatedRecord[key]) ) {
+        updatedRecord[key] = updatedRecord[key].map( item => {
+          const itemKeys = Object.keys(item);
+          return item[itemKeys[0]]
+        });
+      } else if (key === "start_date") {
         const start_date = dayjs(updatedRecord["start_date"], "YYYY-MM-DD")
         const end_date = dayjs(updatedRecord["end_date"], "YYYY-MM-DD")
         
@@ -27,6 +36,7 @@ function MainTable(props) {
           start_date,
           end_date,
         ];
+        delete updatedRecord['end_date'];
       } else {
         const dateRegex =
           /(19|20)\d\d-((0[1-9]|1[012])-(0[1-9]|[12]\d)|(0[13-9]|1[012])-30|(0[13578]|1[02])-31)/;
@@ -69,7 +79,10 @@ function MainTable(props) {
         if (editingRowId === record[props.idName]) {
           return renderField({ ...props, record }, column);
         }
-        return text;
+        return column.type !== 'list' ? text : text.map((employee, index) => {
+          const keys = Object.keys(employee);
+          return `${employee[keys[1]]}; `;
+        });
       },
     })),
     {

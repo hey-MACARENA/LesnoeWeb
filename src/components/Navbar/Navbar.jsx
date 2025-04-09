@@ -14,12 +14,17 @@ const items = [
       label: 'Сотрудники',
     },
     {
+      key: '/sectionstable',
+      icon: <PieChartOutlined />,
+      label: 'Кварталы',
+    },
+    {
       key: '/leavestable',
       icon: <DesktopOutlined />,
       label: 'Отпуска',
     },
     {
-      key: '/TravelSheetsTable',
+      key: '/travelsheetstable',
       icon: <DesktopOutlined />,
       label: 'Путеводные листы',
     },

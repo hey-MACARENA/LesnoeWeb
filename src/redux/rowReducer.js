@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { rowAPI } from "../api/rowApi";
 import dayjs from 'dayjs';
 
@@ -52,7 +52,9 @@ export const fetchData = (url, sortName) => async (dispatch) => {
     dispatch(setIdName(response.idName));
     dispatch(setComlumns(response.columns));
     dispatch(setRows({ rows: response.rows, totalRows: response.totalRows }));
-    dispatch(setSorts(response.columns.map(column => ({ name: column.name, label: column.label }) )));
+    dispatch(setSorts(response.columns.map(column => (
+        column.type !== 'list' ? { name: column.name, label: column.label } : null
+    )).filter(number => number !== null)));
 };
 
 export const fetchExtras = (url) => async (dispatch) => {
@@ -89,7 +91,6 @@ export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {
 export const editRow = (url, crudUrl, rowId, editableRow) => async (dispatch) => {
     let transformedRow = editableRow;
 
-    console.log(editableRow);
     if (editableRow.start_date) {
         transformedRow = {
             ...editableRow,

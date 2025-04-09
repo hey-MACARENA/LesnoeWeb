@@ -1,7 +1,7 @@
 import { Form, Select } from "antd";
 import React, { useEffect } from "react";
 
-function ItemSelect(props) {
+function ItemList(props) {
   useEffect(() => {
     props.dispatch(props.fetchExtras(props.url));
   }, []);
@@ -11,6 +11,7 @@ function ItemSelect(props) {
       <Form.Item name={props.id} rules={props.customRules}>
         <Select
           placeholder="Выберите"
+          mode="multiple"
           allowClear
           showSearch
           optionFilterProp="label"
@@ -38,4 +39,4 @@ function ItemSelect(props) {
   );
 }
 
-export default ItemSelect;
+export default ItemList;

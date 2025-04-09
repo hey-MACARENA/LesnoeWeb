@@ -5,6 +5,7 @@ import ItemNumber from "../FormItems/ItemNumber";
 import ItemSelect from "../FormItems/ItemSelect";
 import ItemRange from "../FormItems/ItemRange";
 import ItemDate from "../FormItems/ItemDate";
+import ItemList from "../FormItems/ItemList";
 
 const { Text } = Typography;
 
@@ -54,6 +55,17 @@ export const renderField = (props, column) => {
           fetchExtras={props.fetchExtras}
         />
       );
+    case "list":
+      return (
+        <ItemList
+          id={id}
+          customRules={customRules}
+          url={url}
+          extras={props.extras}
+          dispatch={props.dispatch}
+          fetchExtras={props.fetchExtras}
+        />
+        );
     case "date":
       return <ItemDate id={id} customRules={customRules} />;
     case "start_date":
@@ -67,6 +79,7 @@ function MainAdder(props) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
+    console.log(values);
     props.dispatch(props.addNewRow(props.url, props.crudUrl, values));
     form.resetFields();
   };
