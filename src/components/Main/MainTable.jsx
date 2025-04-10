@@ -71,7 +71,7 @@ function MainTable(props) {
   };
 
   const tableColumns = [
-    ...props.columns.map((column) => ({
+    ...props.columns?.map((column) => ({
       title: column.label,
       dataIndex: column.name,
       key: column.name,
@@ -84,7 +84,7 @@ function MainTable(props) {
           return `${employee[keys[1]]}; `;
         });
       },
-    })),
+    })) || [],
     {
       title: "Действия",
       key: "actions",

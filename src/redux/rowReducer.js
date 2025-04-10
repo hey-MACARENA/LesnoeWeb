@@ -14,6 +14,8 @@ const rowSlice = createSlice({
         extras: { },
         sorts: [],
         currentSort: '',
+        filters: [],
+        currentFilters: { },
     },
     reducers: {
         setUrl: (state, acion) => {
@@ -32,29 +34,45 @@ const rowSlice = createSlice({
             state.rows = action.payload.rows;
             state.totalRows = action.payload.totalRows;
         },
+        setExtras: (state, action) => {
+            state.extras[action.payload.url] = action.payload.response;
+        },
         setSorts: (state, action) => {
             state.sorts = action.payload;
         },
         setCurrentSort: (state, action) => {
             state.currentSort = action.payload;
         },
-        setExtras: (state, action) => {
-            state.extras[action.payload.url] = action.payload.response;
+        setFilters: (state, action) => {
+            state.filters = action.payload;
+        },
+        setCurrentFilter: (state, action) => {
+            state.currentFilters = ({
+                ...state.currentFilters,
+                [action.payload['key']]: action.payload['value'],
+            });
+        },
+        nullifyFilters: (state, action) => {
+            state.sorts = [];
+            state.currentSort = '';
+            state.filters = [];
+            state.currentFilters = { };
         },
     },
 });
 
-export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setSorts, setCurrentSort, setExtras } = rowSlice.actions;
+export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setExtras , setSorts, setCurrentSort, setFilters, setCurrentFilter, nullifyFilters } = rowSlice.actions;
 
-export const fetchData = (url, sortName) => async (dispatch) => {
-    const response = await rowAPI.getData(url, sortName);
+export const fetchData = (url, sortName, currentFilters) => async (dispatch) => {
+    const response = await rowAPI.getData(url, sortName, currentFilters);
     dispatch(setCrudUrl(response.crudUrl));
     dispatch(setIdName(response.idName));
     dispatch(setComlumns(response.columns));
     dispatch(setRows({ rows: response.rows, totalRows: response.totalRows }));
-    dispatch(setSorts(response.columns.map(column => (
+    dispatch(setSorts(response.columns?.map(column => (
         column.type !== 'list' ? { name: column.name, label: column.label } : null
-    )).filter(number => number !== null)));
+    )) || [].filter(number => number !== null)));
+    dispatch(setFilters(response.filters));
 };
 
 export const fetchExtras = (url) => async (dispatch) => {
@@ -64,6 +82,11 @@ export const fetchExtras = (url) => async (dispatch) => {
 
 export const changeCurrentSort = (currentSort) => async (dispatch) => {
     dispatch(setCurrentSort(currentSort));
+}
+
+export const changeCurrentFilter = (currentFilter) => async (dispatch) => {
+    console.log(currentFilter);
+    dispatch(setCurrentFilter(currentFilter));
 }
 
 export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {

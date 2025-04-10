@@ -10,26 +10,17 @@ import ItemList from "../FormItems/ItemList";
 const { Text } = Typography;
 
 export const renderField = (props, column) => {
-  let id = "";
   let customRules = [];
-  let maxChar = 0;
-  let minNum = 0;
-  let maxNum = 0;
-  let intOnly = true;
-  let url = "";
+  let id;
+  let settings = [];
 
   if (column) {
-    id = column.id;
-    customRules =
-      column.required === false
-        ? [{ required: false }]
-        : [{ required: true, message: "Это обязательное поле" }];
-    maxChar = column.settings?.maxChar || 0;
-    minNum = column.settings?.minNum || 0;
-    maxNum = column.settings?.maxNum || 0;
-    intOnly = column.settings?.intOnly || true;
-    url = column.settings?.url || "";
+      id = column.id;
+      customRules = column.required === false ? [{ required: false }] : [{ required: true, message: "Это обязательное поле" }];
+      settings = { ...column.settings };
   }
+
+  const { maxChar, minNum, maxNum, intOnly, url } = settings;
 
   switch (column.type) {
     case "text":
@@ -87,16 +78,16 @@ function MainAdder(props) {
   return (
     <>
       <Row>
-        {props.columns.map((column) => (
+        {props.columns?.map((column) => (
           <Col span={column.type === "number" ? 2 : 3}>
             <Text>{column.label}</Text>
           </Col>
-        ))}
+        ) || [])}
       </Row>
 
       <Form layout="inline" form={form} onFinish={onFinish}>
         <Row style={{ width: "100%" }}>
-          {props.columns.map((column) => (
+          {props.columns?.map((column) => (
             <Col
               key={column.name}
               span={
@@ -111,7 +102,7 @@ function MainAdder(props) {
             >
               {renderField(props, column)}
             </Col>
-          ))}
+          ) || [])}
           <Col>
             <Form.Item>
               <Button type="primary" htmlType="submit">

@@ -3,11 +3,14 @@ import MainTable from "./MainTable";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewRow,
+  changeCurrentFilter,
   changeCurrentSort,
   deleteRow,
   editRow,
   fetchData,
   fetchExtras,
+  nullifyFilters,
+  setFilters,
   setUrl,
 } from "../../redux/rowReducer";
 import { Divider } from "antd";
@@ -24,12 +27,16 @@ function MainContainer() {
   const idName = useSelector((state) => state.rows.idName);
   const columns = useSelector((state) => state.rows.columns);
   const rows = useSelector((state) => state.rows.rows);
+  const extras = useSelector((state) => state.rows.extras);
   const totalRows = useSelector((state) => state.rows.totalRows);
   const sorts = useSelector((state) => state.rows.sorts);
-  const extras = useSelector((state) => state.rows.extras);
+  const currentSort = useSelector((state) => state.rows.currentSort);
+  const filters = useSelector((state) => state.rows.filters);
+  const currentFilters = useSelector((state) => state.rows.currentFilters);
 
   useEffect(() => {
     dispatch(setUrl(location.pathname));
+    dispatch(nullifyFilters());
   }, [dispatch, location.pathname]);
 
   useEffect(() => {
@@ -44,10 +51,16 @@ function MainContainer() {
       <MainHeader 
         dispatch={dispatch}
         fetchData={fetchData}
+        fetchExtras={fetchExtras}
         changeCurrentSort={changeCurrentSort}
+        changeCurrentFilter={changeCurrentFilter}
+        extras={extras}
         url={url}
         totalRows={totalRows}
         sorts={sorts}
+        currentSort={currentSort}
+        filters={filters}
+        currentFilters={currentFilters}
       />
       <MainAdder
         dispatch={dispatch}
