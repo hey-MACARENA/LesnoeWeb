@@ -85,7 +85,6 @@ export const changeCurrentSort = (currentSort) => async (dispatch) => {
 }
 
 export const changeCurrentFilter = (currentFilter) => async (dispatch) => {
-    console.log(currentFilter);
     dispatch(setCurrentFilter(currentFilter));
 }
 
@@ -127,7 +126,6 @@ export const editRow = (url, crudUrl, rowId, editableRow) => async (dispatch) =>
             transformedRow[key] = editableRow[key].format('YYYY-MM-DD');
         }
     }
-    console.log(transformedRow);
     await rowAPI.putRow(crudUrl, rowId, transformedRow);
     const response = await rowAPI.getData(url);
     dispatch(setRows(response));

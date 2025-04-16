@@ -45,7 +45,6 @@ function MainTable(props) {
         }
       }
     }
-    console.log(updatedRecord);
 
     form.setFieldsValue(updatedRecord);
   };

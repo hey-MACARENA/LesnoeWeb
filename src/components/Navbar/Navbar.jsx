@@ -1,45 +1,71 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  DesktopOutlined,
-  MailOutlined,
-  PieChartOutlined,
-} from '@ant-design/icons';
 import { Menu } from 'antd';
 
 const items = [
     {
       key: '/employeestable',
-      icon: <PieChartOutlined />,
       label: 'Сотрудники',
     },
     {
       key: '/sectionstable',
-      icon: <PieChartOutlined />,
       label: 'Кварталы',
     },
     {
       key: '/leavestable',
-      icon: <DesktopOutlined />,
       label: 'Отпуска',
     },
     {
       key: '/travelsheetstable',
-      icon: <DesktopOutlined />,
       label: 'Путеводные листы',
     },
     {
+      key: '/reportstable',
+      label: 'Отчеты по работам',
+    },
+    {
+      key: '/orderstable',
+      label: 'Приказы',
+    },
+    {
+      key: '/workststable',
+      label: 'Работы',
+    },
+    {
+      key: '/workststable',
+      label: 'Детализация пожарной опасности',
+    },
+    {
       key: 'sub1',
-      label: 'Navigation One',
-      icon: <MailOutlined />,
+      label: 'Дополнительные таблицы',
       children: [
         {
-          key: '5',
-          label: 'Option 5',
+          key: '/leavetypestable',
+          label: 'Типы отпусков',
         },
         {
-          key: '6',
-          label: 'Option 6',
+          key: '/worktypestable',
+          label: 'Типы проводимых работ',
+        },
+        {
+          key: '/territorietypestable',
+          label: 'Типы пород',
+        },
+        {
+          key: '/teamstable',
+          label: 'Бригады',
+        },
+        {
+          key: '/positionstable',
+          label: 'Должности',
+        },
+        {
+          key: '/ordertypestable',
+          label: 'Типы приказов',
+        },
+        {
+          key: '/firehazardlevelstable',
+          label: 'Уровни пожарной опасности',
         },
       ],
     },

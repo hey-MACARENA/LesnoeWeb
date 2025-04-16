@@ -2,12 +2,6 @@ import { instance } from './api';
 
 export const rowAPI = {
     getData(url, sortName, currentFilters) {
-        console.log({
-            params: {
-                sort: sortName,
-                ...currentFilters,
-            }
-        });
         return instance.get(`api${url}`, {
             params: {
                 sort: sortName,

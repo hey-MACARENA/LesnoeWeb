@@ -10,7 +10,6 @@ import {
   fetchData,
   fetchExtras,
   nullifyFilters,
-  setFilters,
   setUrl,
 } from "../../redux/rowReducer";
 import { Divider } from "antd";
