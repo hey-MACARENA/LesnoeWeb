@@ -48,7 +48,6 @@ function MainTable(props) {
 
     form.setFieldsValue(updatedRecord);
   };
-
   const handleSave = async (idName) => {
     try {
       const values = await form.validateFields();
@@ -59,21 +58,54 @@ function MainTable(props) {
       console.error("Ошибка валидации:", error);
     }
   };
-
   const handleCancel = () => {
     setEditingRowId(null);
     form.resetFields();
   };
-
   const handleDelete = (rowId) => {
     props.dispatch(props.deleteRow(props.url, props.crudUrl, rowId));
   };
 
   const tableColumns = [
-    ...props.columns?.map((column) => ({
+    ...props.columns?.map((column) => {
+    const getSorter = () => {
+      if (!column.sortOn) return null;
+
+      return (a, b) => {
+        const fieldA = a[column.name];
+        const fieldB = b[column.name];
+
+        if (column.type === 'date' || column.type === 'start_date' || column.type === 'end_date') {
+          const dateA = fieldA ? new Date(fieldA) : null;
+          const dateB = fieldB ? new Date(fieldB) : null;
+
+          if (dateA && dateB) return dateA - dateB;
+          if (dateA) return 1; // null после даты
+          if (dateB) return -1; // дата перед null
+          return 0;
+        }
+
+        if (column.type === 'list') {
+          return fieldA.length - fieldB.length;
+        }
+
+        if (typeof fieldA === 'number' && typeof fieldB === 'number') {
+          return fieldA - fieldB;
+        }
+
+        if (typeof fieldA === 'string' && typeof fieldB === 'string') {
+          return fieldA.localeCompare(fieldB);
+        }
+
+        return 0;
+      };
+    };
+
+    return {
       title: column.label,
       dataIndex: column.name,
       key: column.name,
+      sorter: getSorter(),
       render: (text, record) => {
         if (editingRowId === record[props.idName]) {
           return renderField({ ...props, record }, column);
@@ -83,7 +115,7 @@ function MainTable(props) {
           return `${employee[keys[1]]}; `;
         });
       },
-    })) || [],
+    }}) || [],
     {
       title: "Действия",
       key: "actions",

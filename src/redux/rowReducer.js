@@ -12,10 +12,6 @@ const rowSlice = createSlice({
         rows: [],
         totalRows: 0,
         extras: { },
-        sorts: [],
-        currentSort: '',
-        filters: [],
-        currentFilters: { },
     },
     reducers: {
         setUrl: (state, acion) => {
@@ -37,31 +33,10 @@ const rowSlice = createSlice({
         setExtras: (state, action) => {
             state.extras[action.payload.url] = action.payload.response;
         },
-        setSorts: (state, action) => {
-            state.sorts = action.payload;
-        },
-        setCurrentSort: (state, action) => {
-            state.currentSort = action.payload;
-        },
-        setFilters: (state, action) => {
-            state.filters = action.payload;
-        },
-        setCurrentFilter: (state, action) => {
-            state.currentFilters = ({
-                ...state.currentFilters,
-                [action.payload['key']]: action.payload['value'],
-            });
-        },
-        nullifyFilters: (state, action) => {
-            state.sorts = [];
-            state.currentSort = '';
-            state.filters = [];
-            state.currentFilters = { };
-        },
     },
 });
 
-export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setExtras , setSorts, setCurrentSort, setFilters, setCurrentFilter, nullifyFilters } = rowSlice.actions;
+export const { setUrl, setCrudUrl, setIdName, setComlumns, setRows, setExtras } = rowSlice.actions;
 
 export const fetchData = (url, sortName, currentFilters) => async (dispatch) => {
     const response = await rowAPI.getData(url, sortName, currentFilters);
@@ -69,23 +44,11 @@ export const fetchData = (url, sortName, currentFilters) => async (dispatch) => 
     dispatch(setIdName(response.idName));
     dispatch(setComlumns(response.columns));
     dispatch(setRows({ rows: response.rows, totalRows: response.totalRows }));
-    dispatch(setSorts(response.columns?.map(column => (
-        column.type !== 'list' ? { name: column.name, label: column.label } : null
-    )) || [].filter(number => number !== null)));
-    dispatch(setFilters(response.filters));
 };
 
 export const fetchExtras = (url) => async (dispatch) => {
     const response = await rowAPI.getExtras(url);
     dispatch(setExtras({ url: url, response: response }));
-}
-
-export const changeCurrentSort = (currentSort) => async (dispatch) => {
-    dispatch(setCurrentSort(currentSort));
-}
-
-export const changeCurrentFilter = (currentFilter) => async (dispatch) => {
-    dispatch(setCurrentFilter(currentFilter));
 }
 
 export const addNewRow = (url, crudUrl, newRow) => async (dispatch) => {
